@@ -1,123 +1,103 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View ,Image,Modal} from 'react-native';
-import { Card ,FAB, TextInput, Button} from 'react-native-paper';
-import React,{useState} from 'react';
+import { StyleSheet, Text, View, Modal } from 'react-native'
+import React, { useState } from 'react'
+import { TextInput, Button } from 'react-native-paper'
 
-const CreateEmployee=()=>{
-    const [Name,setName]=useState("");
-    const [Phone,setPhone]=useState("");
-    const [email,setEmail]=useState("");
-    const [salary,setSalary]=useState("");
-    const [picture,setPicture]=useState("");
-    const [modal, setModal]=useState(false);
+export default function CreateEmployee() {
+    const [Name, setName] = useState("")
+    const [phone, setPhone] = useState("")
+    const [email, setEmail] = useState("")
+    const [salary, setSalary] = useState("")
+    const [picture, setPicture] = useState("")
+    const [modal, setModal] = useState(false)
+
     return (
-        <View style={styles.container}>
+        <View style={styles.root}>
             <TextInput
-            style={styles.inputStyle}
-            label="Name"
-            value={Name}
-            theme={theme}
-            mode="outlined"
-            onChangeText={text=>setName({text})}
+                label="Name"
+                style={styles.inputStyle}
+                value={Name}
+                theme={theme}
+                mode='outlined'
+                onChangeText={text => { setName(text) }}
             />
-
             <TextInput
-            style={styles.inputStyle}
-            label="Email"
-            value={email}
-            theme={theme}
-            mode="outlined"
-            onChangeText={text=>setEmail({text})}
+                label="phone number"
+                style={styles.inputStyle}
+                value={phone}
+                theme={theme}
+                keyboardType="number-pad"
+                mode='outlined'
+                onChangeText={text => { setPhone(text) }}
             />
-
             <TextInput
-            style={styles.inputStyle}
-            label="Phone"
-            value={Phone}
-            theme={theme}
-            keyboardType='number-pad'
-            mode="outlined"
-            onChangeText={text=>setPhone({text})}
+                label="Email"
+                style={styles.inputStyle}
+                value={email}
+                theme={theme}
+                mode='outlined'
+                onChangeText={text => { setEmail(text) }}
             />
-
             <TextInput
-            style={styles.inputStyle}
-            label="salary"
-            value={salary}
-            theme={theme}
-            keyboardType='number-pad'
-            mode="outlined"
-            onChangeText={text=>setSalary({text})}
+                label="Salary"
+                style={styles.inputStyle}
+                value={salary}
+                theme={theme}
+                keyboardType="number-pad"
+                mode='outlined'
+                onChangeText={text => { setSalary(text) }}
             />
-            <Button icon={"upload"}
-             style={styles.inputStyle} 
-             mode='contained'
-            onPress={()=>setModal(true)}>
-                Upload Image
-            </Button>
-
-            <Button icon={"content-save"}
-             style={styles.inputStyle} 
-             mode='contained'
-            onPress={()=>setModal(true)}>
-                save
+            <Button icon="upload" mode="contained" onPress={() => setModal(true)}>
+                Press me
             </Button>
             <Modal
-            animationType='slide'
-            transparent={true}
-            visible={modal}
+                animationType="slide"
+                transparent={true}
+                visible={modal}
+                onRequestClose={() => {
+                    setModal(false)
+                }}
             >
                 <View style={styles.modalView}>
-                    <View style={styles.modalButtonView}>
-                    <Button 
-                    icon={"camera"} 
-                    mode='contained' 
-                    onPress={()=>console.log("pressed")}>
-                    Camera
+                <View style={styles.ModalButtonView}>
+                    <Button icon="camera" mode="contained" onPress={() => setModal(false)}>
+                        cancel
                     </Button>
-
-                    <Button 
-                    icon={"image-area"} 
-                    mode='contained' 
-                    onPress={()=>console.log("pressed")}>
-                    Gallery
-                    </Button>
-
-                    </View>
-                <Button  onPress={()=>setModal(false)}>
-                    cancel
+                    <Button icon="camera" mode="contained" onPress={() => setModal(false)}>
+                        cancel
                     </Button>
                 </View>
-
+                <View>
+                    <Button icon="camera"  onPress={() => setModal(false)}>
+                        cancel
+                    </Button>
+                </View>
+                </View>
             </Modal>
         </View>
     )
 }
-
-const theme={
-    colors:{
-        primary:'purple',
+const theme = {
+    colors: {
+        primary: "#3014a3"
     }
 }
 
-const styles= StyleSheet.create({
-    container:{
-        flex:1,
+const styles = StyleSheet.create({
+    root: {
+        flex: 1,
     },
-    inputStyle:{
-        margin:5,
+    inputStyle: {
+        margin: 5,
     },
-    modalButtonView:{
+    ModalButtonView:{
         flexDirection:"row",
         justifyContent:"space-around",
-        padding:10,
+        padding:10
     },
     modalView:{
         position:"absolute",
         bottom:2,
-        width:"100%",
-        backgroundColor:"white",
+        width:'100%',
+        backgroundColor:"#e3f6fa"
     }
-
 })
-export default CreateEmployee;  
