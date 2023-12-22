@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, Linking } from 'react-native'
+import { StyleSheet, Text, View, Image, Linking,Platform } from 'react-native'
 import React from 'react'
 import { LinearGradient } from 'expo-linear-gradient';
 import { Title, Card, Button } from 'react-native-paper';
@@ -11,6 +11,15 @@ const theme = {
 }
 
 const Profile = () => {
+
+
+    const OpenDial=()=>{
+        if(Platform.OS==="android"){
+            Linking.openURL("tel:123456")
+        }else{
+            Linking.openURL("telprompt:12345")
+        }
+    }
     return (
         <View style={styles.root}>
             <LinearGradient
@@ -28,15 +37,17 @@ const Profile = () => {
                 <Text style={{ fontSize: 15 }}>Web developer</Text>
             </View>
             <Card style={styles.mycard}>
-                <View style={styles.cardContent}>
+                <View style={styles.cardContent} onPress={()=>{
+                    Linking.openURL("mailto:abc@xyz.com")
+                }}>
                     <MaterialIcons name="email" size={29} color="#2337a8" />
                     <Text style={styles.mytext}>abc@xyz.com</Text>
                 </View>
             </Card>
-            <Card style={styles.mycard}>
+            <Card style={styles.mycard} onPress={()=>OpenDial()}>
                 <View style={styles.cardContent}>
                     <Entypo name="phone" size={29} color="#2337a8" />
-                    <Text style={styles.mytext}>1234654654654</Text>
+                    <Text style={styles.mytext}>123456</Text>
                 </View>
             </Card>
             <Card style={styles.mycard}>
