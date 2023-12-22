@@ -4,11 +4,9 @@ import { Card, FAB } from 'react-native-paper';
 
 function Home(props) {
     const data = [
-        { id: 1, name: "rehana", position: "Mobile Dev" },
-        { id: 2, name: "Tehmina", position: "software developer" },
-        { id: 3, name: "fiza", position: "Data Scientist" },
-        { id: 4, name: "Sara", position: "machine learning engineer" }
-
+        { id: "1", name: "rehana", email:"abc@abc.com",phone:"1234",salary:"5 lpa",position: "Mobile Dev" ,picture:"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"},
+        { id: "2", name: "Maryam", email:"abc@abc.com",phone:"1254",salary:"4 lpa",position: "Data Scientist" ,picture:"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"},
+        { id: "3", name: "sara", email:"abc@abc.com",phone:"1284",salary:"6 lpa",position: "Machine Learning Engineer" ,picture:"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"},
     ]
 
     const theme = {
@@ -20,7 +18,7 @@ function Home(props) {
     const renderList = ((item) => {
         return (
             <Card style={styles.mycard} key={item.id}
-            onPress={()=>props.navigation.navigate("Profile")}
+            onPress={()=>props.navigation.navigate("Profile",{item})}
             >
                 <View style={styles.Viewcard}>
                     <Image
@@ -44,7 +42,7 @@ function Home(props) {
                 renderItem={({ item }) => {
                     return renderList(item)
                 }}
-                keyExtractor={item => `${item.id}`}
+                keyExtractor={item => item.id}
             />
             <FAB
                 onPress={() => props.navigation.navigate("CreateEmployee")}
