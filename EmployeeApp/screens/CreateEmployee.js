@@ -46,8 +46,12 @@ export default function CreateEmployee() {
                 mode='outlined'
                 onChangeText={text => { setSalary(text) }}
             />
-            <Button icon="upload" mode="contained" onPress={() => setModal(true)}>
-                Press me
+            <Button  style={styles.inputStyle} 
+            icon="upload"
+            mode="contained"
+            theme={theme}
+            onPress={() => setModal(true)}>
+             Upload Image
             </Button>
             <Modal
                 animationType="slide"
@@ -59,7 +63,11 @@ export default function CreateEmployee() {
             >
                 <View style={styles.modalView}>
                 <View style={styles.ModalButtonView}>
-                    <Button icon="camera" mode="contained" onPress={() => setModal(false)}>
+                    <Button 
+                    icon="camera"
+                     mode="contained" 
+                     theme={theme}
+                     onPress={() => setModal(false)}>
                         cancel
                     </Button>
                     <Button icon="camera" mode="contained" onPress={() => setModal(false)}>
