@@ -53,6 +53,14 @@ export default function CreateEmployee() {
             onPress={() => setModal(true)}>
              Upload Image
             </Button>
+
+            <Button  style={styles.inputStyle} 
+            icon="content-save"
+            mode="contained"
+            theme={theme}
+            onPress={() => console.log("saved")}>
+             Save
+            </Button>
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -67,15 +75,22 @@ export default function CreateEmployee() {
                     icon="camera"
                      mode="contained" 
                      theme={theme}
-                     onPress={() => setModal(false)}>
-                        cancel
+                     onPress={() => console.log("camera button pressed")}>
+                        camera
                     </Button>
-                    <Button icon="camera" mode="contained" onPress={() => setModal(false)}>
-                        cancel
+                    <Button
+                     icon="image-area" 
+                     mode="contained" 
+                     theme={theme}
+                     onPress={() => console.log("gallery button pressed")}>
+                        gallery
                     </Button>
                 </View>
                 <View>
-                    <Button icon="camera"  onPress={() => setModal(false)}>
+                    <Button 
+                    icon="camera"  
+                    theme={theme}
+                    onPress={() => setModal(false)}>
                         cancel
                     </Button>
                 </View>
@@ -86,7 +101,7 @@ export default function CreateEmployee() {
 }
 const theme = {
     colors: {
-        primary: "#3014a3"
+        primary: "#2337a8"
     }
 }
 
@@ -106,6 +121,6 @@ const styles = StyleSheet.create({
         position:"absolute",
         bottom:2,
         width:'100%',
-        backgroundColor:"#e3f6fa"
+        backgroundColor:"white"
     }
 })
