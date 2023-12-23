@@ -12,7 +12,7 @@ const theme = {
 
 const Profile = (props) => {
 
-    const {id,name,picture, phone,salary,email,position} =props.route.params.item
+    const {_id,name,picture, phone,salary,email,position} =props.route.params.item
 
     const OpenDial=()=>{
         if(Platform.OS==="android"){
