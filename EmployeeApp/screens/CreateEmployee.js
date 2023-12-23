@@ -21,12 +21,16 @@ export default function CreateEmployee() {
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             aspect: [1, 1],
-            quality: 0.5,
+            quality: 1,
           });
       
-          if (!data.cancelled) {
-            setPicture(data.uri);
-          }
+          if(!data.canceled){
+            let newfile={uri:data.uri,
+            type:`test/${data.uri.split(".")[1]}`,
+            name:`test.${data.uri.split(".")[1]}`
+        }
+        handleUpload(newfile)
+       }
         } else {
           Alert.alert('Permission not granted', 'You need to give us permission to access the gallery.');
         }
@@ -40,13 +44,57 @@ export default function CreateEmployee() {
                mediaTypes:ImagePicker.MediaTypeOptions.Images,
                allowsEditing:true,
                aspect:[1,1],
-               quality:0.5,
+               quality:1,
            })
-           console.log(data)
+           if(!data.canceled){
+                let newfile={uri:data.uri,
+                type:`test/${data.uri.split(".")[1]}`,
+                name:`test.${data.uri.split(".")[1]}`  
+            }
+            handleUpload(newfile)
+           }
         }else{
            Alert.alert("you need to give us permission to work")
         }
        }
+       const handleUpload = (image) => {
+        const data = new FormData();
+        data.append('file', image);
+        data.append('upload_preset', 'EmployeeApp'); // Corrected typo here
+        data.append('cloud_name', 'dh9zxbrlw');
+    
+        fetch('https://api.cloudinary.com/v1_1/dh9zxbrlw/image/upload', {
+            method: 'post',
+            body: data,
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            setPicture(data.url)
+            setModal(false)
+        })
+        .catch(error => {
+            console.error('Upload error:', error);
+        });
+    };
+    
+
+    //    const handleUpload=(image)=>{
+    //     const data= new FormData()
+    //     data.append('file',image)
+    //     data.append('upload_preset','EmployeeApp' )
+    //     data.append("cloud_name","dh9zxbrlw")
+
+    //     fetch("https://api.cloudinary.com/v1_1/dh9zxbrlw/image/upload",{
+    //         method:"post",
+    //         body:data
+    //     }).then(res=>res.json())
+    //     .then(data=>{
+    //         console.log(data)
+    //     }) .catch((error) => {
+    //         console.error('Upload error:', error);
+    //     });
+    //    }
 
     return (
         <View style={styles.root}>
@@ -85,7 +133,7 @@ export default function CreateEmployee() {
                 onChangeText={text => { setSalary(text) }}
             />
             <Button  style={styles.inputStyle} 
-            icon="upload"
+            icon={picture==""?"upload":"check"}
             mode="contained"
             theme={theme}
             onPress={() => setModal(true)}>
