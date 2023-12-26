@@ -4,13 +4,34 @@ import { TextInput, Button } from 'react-native-paper'
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 
-export default function CreateEmployee({navigation}) {
-    const [name, setName] = useState("")
-    const [phone, setPhone] = useState("")
-    const [email, setEmail] = useState("")
-    const [salary, setSalary] = useState("")
-    const [picture, setPicture] = useState("")
-    const [position, setPosition] = useState("")
+export default function CreateEmployee({navigation,route}) {
+
+    const getDetails=(type)=>{
+        if(route.params){
+            switch(type){
+                case "name":
+                    return route.params.name
+                case "phone":
+                    return route.params.phone
+                case "email":
+                    return route.params.email
+                case "salary":
+                    return route.params.salary
+                case "picture":
+                    return route.params.picture
+                case "position":
+                    return route.params.position
+            }
+        }
+        return ""
+    }
+
+    const [name, setName] = useState(getDetails("name"))
+    const [phone, setPhone] = useState(getDetails("phone"))
+    const [email, setEmail] = useState(getDetails("email"))
+    const [salary, setSalary] = useState(getDetails("salary"))
+    const [picture, setPicture] = useState(getDetails("picture"))
+    const [position, setPosition] = useState(getDetails("position"))
     const [modal, setModal] = useState(false)
 
     const submitData=()=>{
@@ -33,6 +54,31 @@ export default function CreateEmployee({navigation}) {
             Alert.alert("Employee Added Successfully")
             navigate.navigation("Home")
         })
+    }
+
+    const updateDetails=()=>{
+        fetch("http://192.168.6.153:3000/send-data",{
+            method:"post",
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({
+                // id:route.params._id,
+                name,
+                email,
+                phone,
+                salary,
+                picture,
+                position
+            })
+        }).then(res=>res.json())
+        .then(data=>{
+            console.log(data)
+            Alert.alert("Employee Updated Successfully")
+            navigate.navigation("Home")
+        }).catch(
+            err=>{Alert.alert("something went wrong", err)}
+        )
     }
 
     const pickFromGallery = async () => {
@@ -119,8 +165,8 @@ export default function CreateEmployee({navigation}) {
     //    }
 
     return (
+        
         <View style={styles.root}>
-            <KeyboardAvoidingView>
             <TextInput
                 label="Name"
                 style={styles.inputStyle}
@@ -170,7 +216,7 @@ export default function CreateEmployee({navigation}) {
             onPress={() => setModal(true)}>
              Upload Image
             </Button>
-
+            {route.params?
             <Button  style={styles.inputStyle} 
             icon="content-save"
             mode="contained"
@@ -178,6 +224,15 @@ export default function CreateEmployee({navigation}) {
             onPress={() => submitData()}>
              Save
             </Button>
+            :
+            <Button  style={styles.inputStyle} 
+            icon="content-save"
+            mode="contained"
+            theme={theme}
+            onPress={() => updateDetails()}>
+             Update Details
+            </Button>
+                }
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -213,8 +268,9 @@ export default function CreateEmployee({navigation}) {
                 </View>
                 </View>
             </Modal>
-            </KeyboardAvoidingView>
+           
         </View>
+       
     )
 }
 const theme = {

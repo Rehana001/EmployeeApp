@@ -1,18 +1,25 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, FlatList ,ActivityIndicator} from 'react-native';
+import { StyleSheet, Text, View, Image, FlatList,Alert} from 'react-native';
 import { Card, FAB } from 'react-native-paper';
 import React,{useState,useEffect} from 'react'
 
 function Home(props) {
     const[data,setData]=useState([])
     const[loading, setLoading]=useState(true)
-    useEffect(()=>{
+
+    const fetchData=()=>{
         fetch("http://192.168.6.153:3000/")
         .then(res=>res.json())
         .then(results=>{
             setData(results)
             setLoading(false)
+        }).catch(err=>{
+            Alert.alert("something went wrong",err)
         })
+    }
+
+    useEffect(()=>{
+       fetchData()
     },[])
     const theme = {
         colors: {
@@ -42,18 +49,15 @@ function Home(props) {
     return (
         <View style={{ flex: 1 }}>
             {/* {renderList} */}
-            {
-            loading? 
-            <ActivityIndicator size="large" color="#0000ff"/>
-            :
             <FlatList
                 data={data}
                 renderItem={({ item }) => {
                     return renderList(item)
                 }}
                 keyExtractor={item => item._id}
+                onRefresh={()=>fetchData()}
+                refreshing={loading}
             />
-            }
             
             <FAB
                 onPress={() => props.navigation.navigate("CreateEmployee")}
